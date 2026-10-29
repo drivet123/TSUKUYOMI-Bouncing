@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>BounceV5</AssemblyName>
+    <RootNamespace>BounceV5</RootNamespace>
+    <Version>5.2.0</Version>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GameDir Condition="'$(GameDir)' == ''">$(MSBuildProjectDirectory)\..\..\..</GameDir>
+    <NuGetCache Condition="'$(NuGetCache)' == ''">$(USERPROFILE)\.nuget\packages</NuGetCache>
+    <DeployToGame Condition="'$(DeployToGame)' == ''">true</DeployToGame>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="$(GameDir)\BepInEx\core\BepInEx.Core.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\core\BepInEx.Unity.Common.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\core\BepInEx.Unity.IL2CPP.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\core\Il2CppInterop.Runtime.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\core\0Harmony.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\interop\Il2Cppmscorlib.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\interop\UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\interop\UnityEngine.AudioModule.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\interop\UnityEngine.UI.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\interop\Unity.InputSystem.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\interop\UnityEngine.InputLegacyModule.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\interop\UnityEngine.IMGUIModule.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\interop\UnityEngine.UIModule.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\interop\UnityEngine.TextRenderingModule.dll" Private="false" />
+    <Reference Include="$(GameDir)\BepInEx\interop\UnityEngine.ImageConversionModule.dll" Private="false" />
+  </ItemGroup>
+
+  <Target Name="DeployToGame" AfterTargets="Build" Condition="'$(DeployToGame)' == 'true' and Exists('$(GameDir)\BepInEx\plugins')">
+    <ItemGroup>
+      <NAudioDlls Include="$(NuGetCache)\naudio\2.2.1\lib\net6.0\NAudio.dll" />
+      <NAudioDlls Include="$(NuGetCache)\naudio.core\2.2.1\lib\netstandard2.0\NAudio.Core.dll" />
+      <NAudioDlls Include="$(NuGetCache)\naudio.winmm\2.2.1\lib\netstandard2.0\NAudio.WinMM.dll" />
+      <NAudioDlls Include="$(NuGetCache)\naudio.wasapi\2.2.1\lib\netstandard2.0\NAudio.Wasapi.dll" />
+      <NAudioDlls Include="$(NuGetCache)\naudio.midi\2.2.1\lib\netstandard2.0\NAudio.Midi.dll" />
+      <NAudioDlls Include="$(NuGetCache)\naudio.asio\2.2.1\lib\netstandard2.0\NAudio.Asio.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(GameDir)\BepInEx\plugins\BounceV5" />
+    <Copy SourceFiles="@(NAudioDlls)" DestinationFolder="$(GameDir)\BepInEx\plugins\BounceV5" />
+    <Message Text="Deployed to $(GameDir)\BepInEx\plugins\BounceV5" Importance="high" />
+  </Target>
+
+</Project>
