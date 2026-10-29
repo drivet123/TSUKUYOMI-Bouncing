@@ -1,6 +1,6 @@
 # TSUKUYOMI Q 弹 Mod（BounceV5）
 
-让《KAZUMA KANEKO'S TSUKUYOMI》中的立绘、敌人、卡牌和大型 UI 图片随节拍 Q 弹跳动，并提供 DJ 音乐、击杀音效、月相演出与游戏内设置界面。
+让《KAZUMA KANEKO'S TSUKUYOMI》中的立绘、敌人、卡牌和大型 UI 图片随节拍 Q 弹跳动，并提供 DJ 音乐、击杀音效、大脸演出与游戏内设置界面。
 
 **当前发布版：v5.2.0。**
 
@@ -54,17 +54,6 @@ BepInEx/plugins/BounceV5/assets/image/半月.png
 
 `KillFxImagePath` 默认指向不实际存在的 `assets/image/killfx.png`，这是正常的：插件使用其所在目录寻找固定文件名的四张月相图。
 
-## 自动月相校准
-
-`KillFxPhase=auto` 会优先使用 `KillFxCharaMap` 的形态映射，再尝试按名称判断；未校准时可能随机回退，并不保证所有形态都能自动识别。
-
-需要精确校准时，游玩对应形态并查看日志中的 `kill form id=N unmapped`，再在配置中填写，例如：
-
-```text
-KillFxCharaMap=3=满月;7=新月
-```
-
-可用月相值为 `十六夜`、`新月`、`满月`、`半月`。修改后重启游戏，再逐形态验证。
 
 ## 卸载与排错
 
